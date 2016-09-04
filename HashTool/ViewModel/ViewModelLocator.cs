@@ -29,15 +29,19 @@ namespace HashTool.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
+            //if (ViewModelBase.IsInDesignModeStatic)
+            //{
+            //    SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+            //}
+            //else
+            //{
+            //    SimpleIoc.Default.Register<IDataService, DataService>();
+            //}
 
+            SimpleIoc.Default.Register<IAssemblyInfo>(() =>
+            {
+                return new AssemblyInfo(System.Reflection.Assembly.GetExecutingAssembly());
+            });
             SimpleIoc.Default.Register<MainViewModel>();
         }
 
