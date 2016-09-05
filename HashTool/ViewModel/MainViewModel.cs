@@ -38,6 +38,8 @@ namespace HashTool.ViewModel
         private string _sha384Hash = string.Empty;
         private string _sha512Hash = string.Empty;
 
+        private int _computingCount = 0;
+
         private bool _isMd5Checked = true;
         private bool _isSha1Checked = true;
         private bool _isSha256Checked = true;
@@ -52,6 +54,7 @@ namespace HashTool.ViewModel
 
         public string PickedPath { get { return _pickedPath; } set { Set(ref _pickedPath, value); GoCommand.RaiseCanExecuteChanged(); ClearHashes(); } }
 
+        public bool IsNotComputing { get { return _computingCount == 0; } set { if (value) ++_computingCount; else --_computingCount; RaisePropertyChanged(); } }
         public string Md5Hash { get { return _md5Hash; } set { Set(ref _md5Hash, value); } }
         public string Sha1Hash { get { return _sha1Hash; } set { Set(ref _sha1Hash, value); } }
         public string Sha256Hash { get { return _sha256Hash; } set { Set(ref _sha256Hash, value); } }
@@ -64,11 +67,11 @@ namespace HashTool.ViewModel
         public bool IsSha384Checked { get { return _isSha384Checked; } set { Set(ref _isSha384Checked, value); GoCommand.RaiseCanExecuteChanged(); } }
         public bool IsSha512Checked { get { return _isSha512Checked; } set { Set(ref _isSha512Checked, value); GoCommand.RaiseCanExecuteChanged(); } }
 
-        public bool IsComputingMd5 { get { return _isComputingMd5; } set { Set(ref _isComputingMd5, value); } }
-        public bool IsComputingSha1 { get { return _isComputingSha1; } set { Set(ref _isComputingSha1, value); } }
-        public bool IsComputingSha256 { get { return _isComputingSha256; } set { Set(ref _isComputingSha256, value); } }
-        public bool IsComputingSha384 { get { return _isComputingSha384; } set { Set(ref _isComputingSha384, value); } }
-        public bool IsComputingSha512 { get { return _isComputingSha512; } set { Set(ref _isComputingSha512, value); } }
+        public bool IsComputingMd5 { get { return _isComputingMd5; } set { this.IsNotComputing = !value; Set(ref _isComputingMd5, value); } }
+        public bool IsComputingSha1 { get { return _isComputingSha1; } set { this.IsNotComputing = !value; Set(ref _isComputingSha1, value); } }
+        public bool IsComputingSha256 { get { return _isComputingSha256; } set { this.IsNotComputing = !value; Set(ref _isComputingSha256, value); } }
+        public bool IsComputingSha384 { get { return _isComputingSha384; } set { this.IsNotComputing = !value; Set(ref _isComputingSha384, value); } }
+        public bool IsComputingSha512 { get { return _isComputingSha512; } set { this.IsNotComputing = !value; Set(ref _isComputingSha512, value); } }
 
         /// <summary>
         /// Gets the AppTitle property from the <see cref="AssemblyInfo" />.

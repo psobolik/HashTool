@@ -26,8 +26,8 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="fileNameLabel" Text="File:" Grid.Column="0" Margin="0,0,8,0"/>
-            <TextBox x:Name="fileNameTextBox" Text="{Binding PickedPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" AllowDrop="True"/>
-            <Button x:Name="openFileButton" Content="..." Grid.Column="2" Command="{Binding PickFileCommand}" Padding="10,0" Margin="4,0,0,0" ToolTip="Pick File" />
+            <TextBox x:Name="fileNameTextBox" Text="{Binding PickedPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" AllowDrop="True" IsEnabled="{Binding IsNotComputing}"/>
+            <Button x:Name="openFileButton" Content="..." Grid.Column="2" Command="{Binding PickFileCommand}" Padding="10,0" Margin="4,0,0,0" ToolTip="Pick File" IsEnabled="{Binding IsNotComputing}" />
         </Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -41,19 +41,19 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <CheckBox Content="MD5" Style="{StaticResource StandardCheckBox}" Grid.Row="0" Grid.Column="0" IsChecked="{Binding IsMd5Checked, Mode=TwoWay}"/>
+            <CheckBox Content="MD5" Style="{StaticResource StandardCheckBox}" Grid.Row="0" Grid.Column="0" IsChecked="{Binding IsMd5Checked, Mode=TwoWay}" IsEnabled="{Binding IsNotComputing}"/>
             <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource StandardTextBox}" Text="{Binding Md5Hash}"/>
             <ProgressBar Grid.Row="0" Grid.Column="1" Style="{StaticResource StandardProgressBar}" IsIndeterminate="True" Visibility="{Binding IsComputingMd5, Converter={StaticResource BooleanToVisibility}}"/>
-            <CheckBox Content="SHA1" Style="{StaticResource StandardCheckBox}" Grid.Row="1" Grid.Column="0" IsChecked="{Binding IsSha1Checked, Mode=TwoWay}"/>
+            <CheckBox Content="SHA1" Style="{StaticResource StandardCheckBox}" Grid.Row="1" Grid.Column="0" IsChecked="{Binding IsSha1Checked, Mode=TwoWay}" IsEnabled="{Binding IsNotComputing}"/>
             <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource StandardTextBox}" Text="{Binding Sha1Hash}"/>
             <ProgressBar Grid.Row="1" Grid.Column="1" Style="{StaticResource StandardProgressBar}" IsIndeterminate="True" Visibility="{Binding IsComputingSha1, Converter={StaticResource BooleanToVisibility}}"/>
-            <CheckBox Content="SHA256" Style="{StaticResource StandardCheckBox}" Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsSha256Checked, Mode=TwoWay}"/>
+            <CheckBox Content="SHA256" Style="{StaticResource StandardCheckBox}" Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsSha256Checked, Mode=TwoWay}" IsEnabled="{Binding IsNotComputing}"/>
             <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource StandardTextBox}" Text="{Binding Sha256Hash}"/>
             <ProgressBar Grid.Row="2" Grid.Column="1" Style="{StaticResource StandardProgressBar}" IsIndeterminate="True" Visibility="{Binding IsComputingSha256, Converter={StaticResource BooleanToVisibility}}"/>
-            <CheckBox Content="SHA384" Style="{StaticResource StandardCheckBox}" Grid.Row="3" Grid.Column="0" IsChecked="{Binding IsSha384Checked, Mode=TwoWay}"/>
+            <CheckBox Content="SHA384" Style="{StaticResource StandardCheckBox}" Grid.Row="3" Grid.Column="0" IsChecked="{Binding IsSha384Checked, Mode=TwoWay}" IsEnabled="{Binding IsNotComputing}"/>
             <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource StandardTextBox}" Text="{Binding Sha384Hash}"/>
             <ProgressBar Grid.Row="3" Grid.Column="1" Style="{StaticResource StandardProgressBar}" IsIndeterminate="True" Visibility="{Binding IsComputingSha384, Converter={StaticResource BooleanToVisibility}}"/>
-            <CheckBox Content="SHA512" Style="{StaticResource StandardCheckBox}" Grid.Row="4" Grid.Column="0" IsChecked="{Binding IsSha512Checked, Mode=TwoWay}"/>
+            <CheckBox Content="SHA512" Style="{StaticResource StandardCheckBox}" Grid.Row="4" Grid.Column="0" IsChecked="{Binding IsSha512Checked, Mode=TwoWay}" IsEnabled="{Binding IsNotComputing}"/>
             <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource StandardTextBox}" Text="{Binding Sha512Hash}"/>
             <ProgressBar Grid.Row="4" Grid.Column="1" Style="{StaticResource StandardProgressBar}" IsIndeterminate="True" Visibility="{Binding IsComputingSha512, Converter={StaticResource BooleanToVisibility}}"/>
         </Grid>
@@ -62,7 +62,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="goButton" Content="Calculate" HorizontalAlignment="Right" Padding="4" Grid.Column="1" Command="{Binding GoCommand}" />
+            <Button x:Name="goButton" Content="Calculate" HorizontalAlignment="Right" Padding="4" Grid.Column="1" Command="{Binding GoCommand}" IsEnabled="{Binding IsNotComputing}"/>
         </Grid>
 
     </StackPanel>
