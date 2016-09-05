@@ -123,7 +123,9 @@ namespace HashTool.ViewModel
 
         private bool CanCalculateChecksums()
         {
-            return !string.IsNullOrWhiteSpace(this.PickedPath) && (this.IsMd5Checked || this.IsSha1Checked || this.IsSha256Checked || this.IsSha384Checked || this.IsSha512Checked);
+            return !string.IsNullOrWhiteSpace(this.PickedPath) 
+                && File.Exists(this.PickedPath)
+                && (this.IsMd5Checked || this.IsSha1Checked || this.IsSha256Checked || this.IsSha384Checked || this.IsSha512Checked);
         }
         public void CalculateChecksums()
         {
