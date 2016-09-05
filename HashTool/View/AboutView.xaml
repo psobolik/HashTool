@@ -1,0 +1,41 @@
+﻿<Window x:Class="HashTool.View.AboutView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HashTool.View"
+        mc:Ignorable="d"        
+        Height="175" Width="250"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Title="{Binding AppTitle, Mode=OneWay}" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LargeLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <Binding Path="About" Source="{StaticResource Locator}"/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Margin="10,5" BorderBrush="Black" BorderThickness="1">
+            <StackPanel Margin="10,0">
+                <Label Content="{Binding AppTitle, Mode=OneWay}" Style="{StaticResource LargeLabel}" />
+                <Label Content="{Binding Version, Mode=OneWay}" />
+                <Label Content="{Binding Copyright, Mode=OneWay}" />
+            </StackPanel>
+        </Border>
+        <Button Grid.Row="1" IsCancel="True" IsDefault="True" Content="OK" Width="60" Margin="10" />
+    </Grid>
+</Window>

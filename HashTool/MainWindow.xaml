@@ -62,7 +62,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="goButton" Content="Calculate" HorizontalAlignment="Right" Padding="4" Grid.Column="1" Command="{Binding GoCommand}" IsEnabled="{Binding IsNotComputing}"/>
+            <Button x:Name="goButton" Content="Calculate" HorizontalAlignment="Center" Padding="4" Command="{Binding GoCommand}" IsEnabled="{Binding IsNotComputing}"/>
+            <Button x:Name="aboutButton" Content="?" HorizontalAlignment="Right" Padding="10,0" Command="{Binding AboutCommand}" IsEnabled="{Binding IsNotComputing}"/>
         </Grid>
 
     </StackPanel>

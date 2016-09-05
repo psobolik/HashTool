@@ -43,6 +43,15 @@ namespace HashTool.ViewModel
                 return new AssemblyInfo(System.Reflection.Assembly.GetExecutingAssembly());
             });
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<AboutViewModel>();
+        }
+
+        /// <summary>
+        /// Gets the About property
+        /// </summary>
+        public AboutViewModel About
+        {
+            get { return ServiceLocator.Current.GetInstance<AboutViewModel>(); }
         }
 
         /// <summary>

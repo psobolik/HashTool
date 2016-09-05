@@ -8,6 +8,8 @@ using System.Text;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using GalaSoft.MvvmLight.Messaging;
+using HashTool.Messaging;
 
 namespace HashTool.ViewModel
 {
@@ -28,6 +30,7 @@ namespace HashTool.ViewModel
 
         private RelayCommand _pickFileCommand;
         private RelayCommand _goCommand;
+        private RelayCommand _aboutCommand;
 
         private string _welcomeTitle = string.Empty;
         private string _pickedPath = string.Empty;
@@ -119,6 +122,22 @@ namespace HashTool.ViewModel
                 }));
             }
         }
+        public RelayCommand AboutCommand
+        {
+            get
+            {
+                return _aboutCommand ?? (_aboutCommand = new RelayCommand(() =>
+                {
+                    ShowAboutBox();
+                }));
+            }
+        }
+
+        private void ShowAboutBox()
+        {
+            Messenger.Default.Send<NotificationMessage>(new NotificationMessage(Notifications.ShowAbout));
+        }
+
         private void ClearHashes()
         {
             this.Md5Hash = this.Sha1Hash = this.Sha256Hash = this.Sha384Hash = this.Sha512Hash = string.Empty;
