@@ -18,16 +18,16 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <StackPanel x:Name="LayoutRoot" Margin="10">
+    <StackPanel Margin="10">
         <Grid Margin="0,15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="fileNameLabel" Text="File:" Grid.Column="0" Margin="0,0,8,0"/>
-            <TextBox x:Name="fileNameTextBox" Text="{Binding PickedPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" AllowDrop="True" IsEnabled="{Binding IsNotComputing}"/>
-            <Button x:Name="openFileButton" Content="..." Grid.Column="2" Command="{Binding PickFileCommand}" Padding="10,0" Margin="4,0,0,0" ToolTip="Pick File" IsEnabled="{Binding IsNotComputing}" />
+            <TextBlock Text="File:" Grid.Column="0" Margin="0,0,8,0"/>
+            <TextBox x:Name="FileNameTextBox" Text="{Binding PickedPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" AllowDrop="True" IsEnabled="{Binding IsNotComputing}"/>
+            <Button Content="..." Grid.Column="2" Command="{Binding PickFileCommand}" Padding="10,0" Margin="4,0,0,0" ToolTip="Pick File" IsEnabled="{Binding IsNotComputing}" />
         </Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -62,8 +62,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="goButton" Content="Calculate" HorizontalAlignment="Center" Padding="4" Command="{Binding GoCommand}" IsEnabled="{Binding IsNotComputing}"/>
-            <Button x:Name="aboutButton" Content="?" HorizontalAlignment="Right" Padding="10,0" Command="{Binding AboutCommand}" IsEnabled="{Binding IsNotComputing}"/>
+            <Button Grid.Column="0" Content="Calculate" HorizontalAlignment="Right" Padding="4" Command="{Binding GoCommand}" IsEnabled="{Binding IsNotComputing}" Margin="0,0,193,0"/>
+            <Button Grid.Column="1" Content="?" HorizontalAlignment="Right" Padding="10,0" Command="{Binding AboutCommand}" IsEnabled="{Binding IsNotComputing}"/>
         </Grid>
 
     </StackPanel>

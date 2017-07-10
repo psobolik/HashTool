@@ -9,7 +9,6 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using HashTool.Model;
@@ -49,10 +48,7 @@ namespace HashTool.ViewModel
         /// <summary>
         /// Gets the About property
         /// </summary>
-        public AboutViewModel About
-        {
-            get { return ServiceLocator.Current.GetInstance<AboutViewModel>(); }
-        }
+        public AboutViewModel About => ServiceLocator.Current.GetInstance<AboutViewModel>();
 
         /// <summary>
         /// Gets the Main property.
@@ -60,13 +56,7 @@ namespace HashTool.ViewModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
+        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
 
         /// <summary>
         /// Cleans up all the resources.

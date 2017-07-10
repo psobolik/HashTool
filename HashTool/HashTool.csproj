@@ -76,7 +76,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\ByteArrayHelper.cs" />
-    <Compile Include="Helpers\ShowAboutService.cs" />
     <Compile Include="Messaging\Notifications.cs" />
     <Compile Include="Model\AssemblyInfo.cs" />
     <Compile Include="Model\IAssemblyInfo.cs" />

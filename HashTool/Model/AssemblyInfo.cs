@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HashTool.Model
 {
@@ -43,32 +39,18 @@ namespace HashTool.Model
         {
             get { return GetAttributeValue<AssemblyCultureAttribute>(a => a.Culture); }
         }
-        public string Version
-        {
-            get
-            {
-                Version version = AssemblyName.Version;
-                return version == null ? null : version.ToString();
-            }
-        }
-        public string DisplayName
-        {
-            get { return AssemblyName.FullName; }
-        }
-        public string ProcessorArchecture
-        {
-            get { return AssemblyName.ProcessorArchitecture.ToString(); }
-        }
-
-        private Assembly Assembly { get; set; }
-        private AssemblyName AssemblyName { get { return _assemblyName ?? (_assemblyName = Assembly.GetName()); } }
+        public string Version => AssemblyName.Version?.ToString();
+        public string DisplayName => AssemblyName.FullName;
+        public string ProcessorArchecture => AssemblyName.ProcessorArchitecture.ToString();
+        private Assembly Assembly { get; }
+        private AssemblyName AssemblyName => _assemblyName ?? (_assemblyName = Assembly.GetName());
 
         public AssemblyInfo(Assembly assembly)
         {
             Assembly = assembly;
         }
 
-        protected string GetAttributeValue<T>(Func<T, string> callback, string defaultValue = null) where T : System.Attribute
+        private string GetAttributeValue<T>(Func<T, string> callback, string defaultValue = null) where T : Attribute
         {
             T attribute = Assembly.GetCustomAttribute<T>();
             return attribute == null ? defaultValue : callback(attribute);

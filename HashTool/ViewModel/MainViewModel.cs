@@ -4,10 +4,7 @@ using HashTool.Helpers;
 using HashTool.Model;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
-using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using GalaSoft.MvvmLight.Messaging;
 using HashTool.Messaging;
 
@@ -32,7 +29,6 @@ namespace HashTool.ViewModel
         private RelayCommand _goCommand;
         private RelayCommand _aboutCommand;
 
-        private string _welcomeTitle = string.Empty;
         private string _pickedPath = string.Empty;
 
         private string _md5Hash = string.Empty;
@@ -41,7 +37,7 @@ namespace HashTool.ViewModel
         private string _sha384Hash = string.Empty;
         private string _sha512Hash = string.Empty;
 
-        private int _computingCount = 0;
+        private int _computingCount;
 
         private bool _isMd5Checked = true;
         private bool _isSha1Checked = true;
@@ -49,11 +45,11 @@ namespace HashTool.ViewModel
         private bool _isSha384Checked = true;
         private bool _isSha512Checked = true;
 
-        private bool _isComputingMd5 = false;
-        private bool _isComputingSha1 = false;
-        private bool _isComputingSha256 = false;
-        private bool _isComputingSha384 = false;
-        private bool _isComputingSha512 = false;
+        private bool _isComputingMd5;
+        private bool _isComputingSha1;
+        private bool _isComputingSha256;
+        private bool _isComputingSha384;
+        private bool _isComputingSha512;
 
         public string PickedPath { get { return _pickedPath; } set { Set(ref _pickedPath, value); GoCommand.RaiseCanExecuteChanged(); ClearHashes(); } }
 
@@ -70,23 +66,23 @@ namespace HashTool.ViewModel
         public bool IsSha384Checked { get { return _isSha384Checked; } set { Set(ref _isSha384Checked, value); GoCommand.RaiseCanExecuteChanged(); } }
         public bool IsSha512Checked { get { return _isSha512Checked; } set { Set(ref _isSha512Checked, value); GoCommand.RaiseCanExecuteChanged(); } }
 
-        public bool IsComputingMd5 { get { return _isComputingMd5; } set { this.IsNotComputing = !value; Set(ref _isComputingMd5, value); } }
-        public bool IsComputingSha1 { get { return _isComputingSha1; } set { this.IsNotComputing = !value; Set(ref _isComputingSha1, value); } }
-        public bool IsComputingSha256 { get { return _isComputingSha256; } set { this.IsNotComputing = !value; Set(ref _isComputingSha256, value); } }
-        public bool IsComputingSha384 { get { return _isComputingSha384; } set { this.IsNotComputing = !value; Set(ref _isComputingSha384, value); } }
-        public bool IsComputingSha512 { get { return _isComputingSha512; } set { this.IsNotComputing = !value; Set(ref _isComputingSha512, value); } }
+        public bool IsComputingMd5 { get { return _isComputingMd5; } set { IsNotComputing = !value; Set(ref _isComputingMd5, value); } }
+        public bool IsComputingSha1 { get { return _isComputingSha1; } set { IsNotComputing = !value; Set(ref _isComputingSha1, value); } }
+        public bool IsComputingSha256 { get { return _isComputingSha256; } set { IsNotComputing = !value; Set(ref _isComputingSha256, value); } }
+        public bool IsComputingSha384 { get { return _isComputingSha384; } set { IsNotComputing = !value; Set(ref _isComputingSha384, value); } }
+        public bool IsComputingSha512 { get { return _isComputingSha512; } set { IsNotComputing = !value; Set(ref _isComputingSha512, value); } }
 
         /// <summary>
         /// Gets the AppTitle property from the <see cref="AssemblyInfo" />.
         /// </summary>
-        public string AppTitle { get { return AssemblyInfo.Description; } }
+        public string AppTitle => AssemblyInfo.Description; 
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel(IAssemblyInfo assemblyInfo)
         {
-            this.AssemblyInfo = assemblyInfo;
+            AssemblyInfo = assemblyInfo;
         }
         public RelayCommand PickFileCommand
         {
@@ -102,63 +98,41 @@ namespace HashTool.ViewModel
                     bool? dlgResult = ofd.ShowDialog();
                     if (dlgResult == true)
                     {
-                        this.PickedPath = ofd.FileName;
+                        PickedPath = ofd.FileName;
                     }
                 }));
             }
         }
 
-        public RelayCommand GoCommand
-        {
-            get
-            {
-                return _goCommand ?? (_goCommand = new RelayCommand(() =>
-                {
-                    CalculateChecksums();
-                },
-                () =>
-                {
-                    return CanCalculateChecksums();
-                }));
-            }
-        }
-        public RelayCommand AboutCommand
-        {
-            get
-            {
-                return _aboutCommand ?? (_aboutCommand = new RelayCommand(() =>
-                {
-                    ShowAboutBox();
-                }));
-            }
-        }
+        public RelayCommand GoCommand => _goCommand ?? (_goCommand = new RelayCommand(CalculateChecksums, CanCalculateChecksums));
+        public RelayCommand AboutCommand => _aboutCommand ?? (_aboutCommand = new RelayCommand(ShowAboutBox));
 
         private void ShowAboutBox()
         {
-            Messenger.Default.Send<NotificationMessage>(new NotificationMessage(Notifications.ShowAbout));
+            Messenger.Default.Send(new NotificationMessage(Notifications.ShowAbout));
         }
 
         private void ClearHashes()
         {
-            this.Md5Hash = this.Sha1Hash = this.Sha256Hash = this.Sha384Hash = this.Sha512Hash = string.Empty;
+            Md5Hash = Sha1Hash = Sha256Hash = Sha384Hash = Sha512Hash = string.Empty;
         }
 
         private bool CanCalculateChecksums()
         {
-            return !string.IsNullOrWhiteSpace(this.PickedPath) 
-                && File.Exists(this.PickedPath)
-                && (this.IsMd5Checked || this.IsSha1Checked || this.IsSha256Checked || this.IsSha384Checked || this.IsSha512Checked);
+            return !string.IsNullOrWhiteSpace(PickedPath) 
+                && File.Exists(PickedPath)
+                && (IsMd5Checked || IsSha1Checked || IsSha256Checked || IsSha384Checked || IsSha512Checked);
         }
-        public void CalculateChecksums()
+        private void CalculateChecksums()
         {
             ClearHashes();
             if (CanCalculateChecksums())
             {
-                Task.Run(() => this.Sha512Hash = ComputeSha512Hash(this.PickedPath));
-                Task.Run(() => this.Sha384Hash = ComputeSha384Hash(this.PickedPath));
-                Task.Run(() => this.Sha256Hash = ComputeSha256Hash(this.PickedPath));
-                Task.Run(() => this.Sha1Hash = ComputeSha1Hash(this.PickedPath));
-                Task.Run(() => this.Md5Hash = ComputeMd5Hash(this.PickedPath));
+                Task.Run(() => Sha512Hash = ComputeSha512Hash(PickedPath));
+                Task.Run(() => Sha384Hash = ComputeSha384Hash(PickedPath));
+                Task.Run(() => Sha256Hash = ComputeSha256Hash(PickedPath));
+                Task.Run(() => Sha1Hash = ComputeSha1Hash(PickedPath));
+                Task.Run(() => Md5Hash = ComputeMd5Hash(PickedPath));
             }
         }
         private static string ComputeHashString(HashAlgorithm hasher, string fileName)
@@ -172,9 +146,9 @@ namespace HashTool.ViewModel
         private string ComputeMd5Hash(string fileName)
         {
             string result = string.Empty;
-            if (this.IsMd5Checked)
+            if (IsMd5Checked)
             {
-                this.IsComputingMd5 = true;
+                IsComputingMd5 = true;
                 using (HashAlgorithm hasher = MD5.Create())
                 {
                     result = ComputeHashString(hasher, fileName);
@@ -187,56 +161,56 @@ namespace HashTool.ViewModel
         private string ComputeSha1Hash(string fileName)
         {
             string result = string.Empty;
-            if (this.IsSha1Checked)
+            if (IsSha1Checked)
             {
-                this.IsComputingSha1 = true;
+                IsComputingSha1 = true;
                 using (HashAlgorithm hasher = SHA1.Create())
                 {
                     result = ComputeHashString(hasher, fileName);
                 }
-                this.IsComputingSha1 = false;
+                IsComputingSha1 = false;
             }
             return result;
         }
         private string ComputeSha256Hash(string fileName)
         {
             string result = string.Empty;
-            if (this.IsSha256Checked)
+            if (IsSha256Checked)
             {
-                this.IsComputingSha256 = true;
+                IsComputingSha256 = true;
                 using (HashAlgorithm hasher = SHA256.Create())
                 {
                     result = ComputeHashString(hasher, fileName);
                 }
-                this.IsComputingSha256 = false;
+                IsComputingSha256 = false;
             }
             return result;
         }
         private string ComputeSha384Hash(string fileName)
         {
             string result = string.Empty;
-            if (this.IsSha384Checked)
+            if (IsSha384Checked)
             {
-                this.IsComputingSha384 = true;
+                IsComputingSha384 = true;
                 using (HashAlgorithm hasher = SHA384.Create())
                 {
                     result = ComputeHashString(hasher, fileName);
                 }
-                this.IsComputingSha384 = false;
+                IsComputingSha384 = false;
             }
             return result;
         }
         private string ComputeSha512Hash(string fileName)
         {
             string result = string.Empty;
-            if (this.IsSha512Checked)
+            if (IsSha512Checked)
             {
-                this.IsComputingSha512 = true;
+                IsComputingSha512 = true;
                 using (HashAlgorithm hasher = SHA512.Create())
                 {
                     result = ComputeHashString(hasher, fileName);
                 }
-                this.IsComputingSha512 = false;
+                IsComputingSha512 = false;
             }
             return result;
         }

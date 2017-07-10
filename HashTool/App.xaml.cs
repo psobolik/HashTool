@@ -1,12 +1,11 @@
-﻿using System.Windows;
-using GalaSoft.MvvmLight.Threading;
+﻿using GalaSoft.MvvmLight.Threading;
 
 namespace HashTool
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App //: Application
     {
         static App()
         {

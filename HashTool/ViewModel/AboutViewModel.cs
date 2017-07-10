@@ -1,10 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using HashTool.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HashTool.ViewModel
 {
@@ -21,17 +16,17 @@ namespace HashTool.ViewModel
         /// <summary>
         /// Gets the AppTitle property from the <see cref="AssemblyInfo" />.
         /// </summary>
-        public string AppTitle { get { return AssemblyInfo.Description; } }
+        public string AppTitle => AssemblyInfo.Description;
 
         /// <summary>
         /// Gets the Copyright property from the <see cref="AssemblyInfo" />.
         /// </summary>
-        public string Copyright { get { return this.AssemblyInfo.Copyright; } }
+        public string Copyright => AssemblyInfo.Copyright;
 
         /// <summary>
         /// Gets the Version property from the <see cref="AssemblyInfo" />.
         /// </summary>
-        public string Version { get { return string.Format(System.Globalization.CultureInfo.CurrentCulture, "v {0}", AssemblyInfo.Version); } }
+        public string Version => $"v {AssemblyInfo.Version}";
 
         #endregion public properties
 
@@ -41,7 +36,7 @@ namespace HashTool.ViewModel
         /// </summary>
         public AboutViewModel(IAssemblyInfo assemblyInfo)
         {
-            this.AssemblyInfo = assemblyInfo;
+            AssemblyInfo = assemblyInfo;
         }
         #endregion constructor
     }
